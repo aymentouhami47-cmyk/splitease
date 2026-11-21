@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SplitEase</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>SplitEase</h1>
+    <p>Share costs with friends and settle up with the fewest payments.</p>
+  </header>
+
+  <div id="message" class="message" role="alert" hidden></div>
+
+  <main class="layout">
+    <!-- Groups -->
+    <aside class="card" id="groups-panel">
+      <h2>Groups</h2>
+      <ul id="group-list" class="list"></ul>
+      <p id="no-groups" class="muted">No groups yet. Create one below.</p>
+      <form id="group-form" class="inline-form" autocomplete="off">
+        <label for="group-name" class="sr-only">New group name</label>
+        <input id="group-name" maxlength="60" placeholder="New group name" required>
+        <button type="submit">Create</button>
+      </form>
+    </aside>
+
+    <!-- Selected group -->
+    <section id="group-view" hidden>
+      <div class="card">
+        <div class="row-between">
+          <h2 id="group-title">Group</h2>
+          <button id="delete-group" type="button" class="danger">Delete group</button>
+        </div>
+
+        <h3>Members</h3>
+        <ul id="member-list" class="list"></ul>
+        <p id="no-members" class="muted">No members yet. Add at least two people to start.</p>
+        <form id="member-form" class="inline-form" autocomplete="off">
+          <label for="member-name" class="sr-only">New member name</label>
+          <input id="member-name" maxlength="50" placeholder="Member name" required>
+          <button type="submit">Add member</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2 id="expense-form-title">Add an expense</h2>
+        <form id="expense-form" autocomplete="off">
+          <div class="grid">
+            <div class="field">
+              <label for="expense-description">Description</label>
+              <input id="expense-description" maxlength="100" placeholder="Dinner" required>
+            </div>
+            <div class="field">
+              <label for="expense-amount">Amount</label>
+              <input id="expense-amount" type="number" min="0.01" max="1000000" step="0.01" placeholder="90.00" required>
+            </div>
+            <div class="field">
+              <label for="expense-payer">Paid by</label>
+              <select id="expense-payer" required></select>
+            </div>
+            <div class="field">
+              <label for="expense-split">Split type</label>
+              <select id="expense-split">
+                <option value="EQUAL">Equally</option>
+                <option value="EXACT">Exact amounts</option>
+                <option value="PERCENT">Percentages</option>
+              </select>
+            </div>
+          </div>
+
+          <fieldset class="field">
+            <legend>Split between</legend>
+            <!-- one row per member, filled in by app.js:
+                 a checkbox, plus an amount / percent box for EXACT and PERCENT -->
+            <div id="participants"></div>
+          </fieldset>
+
+          <div class="actions">
+            <button type="submit" id="expense-submit">Add expense</button>
+            <button type="button" id="expense-cancel" class="secondary" hidden>Cancel edit</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Expenses</h2>
+        <ul id="expense-list" class="list"></ul>
+        <p id="no-expenses" class="muted">No expenses yet.</p>
+      </div>
+
+      <div class="card">
+        <h2>Balances</h2>
+        <table id="balances-table">
+          <thead><tr><th>Member</th><th class="num">Balance</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <p class="muted small">Green = is owed money. Red = owes money.</p>
+      </div>
+
+      <div class="card">
+        <h2>Settle up</h2>
+        <ul id="plan-list" class="list"></ul>
+        <p id="no-plan" class="muted">Everyone is settled.</p>
+      </div>
+    </section>
+
+    <section id="welcome" class="card">
+      <h2>Welcome</h2>
+      <p>Select a group on the left, or create a new one, to start adding expenses.</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
