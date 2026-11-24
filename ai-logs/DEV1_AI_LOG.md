@@ -11,7 +11,7 @@
 ---
 
 ## D1-01: Split logic (`app/splits.py`, `tests/test_splits.py`)
-- **Date:** [date]
+- **Date:** [11/22/2026]
 - **Prompt (summary):** Write pure functions that divide an expense among members in integer cents: equal, exact amounts and percentages. Shares must always add up exactly to the total. Reject invalid input.
 - **AI output:** `split_equal`, `split_exact`, `split_percent`, a `SplitError` exception, and 22 tests. Leftover cents go to the lowest member ids. Percentages use decimal arithmetic with the largest-remainder method.
 - **What we did:** Copied the files, ran `python -m pytest tests/test_splits.py`, all tests passed.
@@ -19,7 +19,7 @@
 - **Verdict:** Accepted. Well-defined arithmetic with clear rules was correct at the first attempt.
 
 ## D1-02: Balances and settlement rules (`app/balances.py`)
-- **Date:** [date]
+- **Date:** [11/22/2026]
 - **Prompt (summary):** Compute each member's net balance from expenses and settlements, and validate a settlement payment (rule BR8 in `SPEC.md`).
 - **AI output:** `compute_balances`, `validate_settlement`, 13+ tests.
 - **Problem found (rules contradicted each other):** Our first BR8 said a payment is only allowed from a debtor to someone they directly owe. But the debt-simplification feature suggests payments between people with no direct debt (A owes B, B owes C, so A should pay C). The app refused its own suggestion. The AI had not checked the two rules against each other; this appeared when we asked it to test "every suggested payment can be recorded".
@@ -27,7 +27,7 @@
 - **Verdict:** Accepted after the fix. The `SPEC.md` wording of BR8 was updated by us.
 
 ## D1-03: SQLite database layer (`app/db.py`)
-- **Date:** [date]
+- **Date:** [11/22/2026]
 - **Prompt (summary):** Store groups, members, expenses, expense shares and settlements in SQLite, with validation and clear errors (validation, not found, conflict).
 - **AI output:** Full data layer with foreign keys, cascading deletes and a transaction per write, plus 30+ tests.
 - **Problem found (wrong assumption):** Duplicate member names were prevented with `CREATE UNIQUE INDEX ... lower(name)`. SQLite's `lower()` only handles ASCII letters, so "Émile" and "émile" were accepted as two different members, against the spec (409). All earlier tests used ASCII names, so they passed. We found it only when we asked the AI to probe its own code with unusual inputs.
@@ -35,7 +35,7 @@
 - **Verdict:** Accepted after the fix.
 
 ## D1-04: REST API (`app/__init__.py`, `app/routes.py`, `docs/API.md`)
-- **Date:** [date]
+- **Date:** [11/22/2026]
 - **Prompt (summary):** Flask app with endpoints for groups, members, expenses (create, edit, delete), balances, settlement plan and settlements. Return JSON errors with correct status codes.
 - **AI output:** App factory `create_app`, a blueprint under `/api`, error handlers (400, 404, 409), the API contract in `docs/API.md`, and 74 API tests.
 - **Problem found:** A request with a huge id (larger than the database integer size) returned HTTP 500. No test had tried it.
@@ -43,7 +43,7 @@
 - **Verdict:** Accepted after the fix.
 
 ## D1-05: Git and environment help
-- **Date:** [date]
+- **Date:** [11/22/2026]
 - **Prompt (summary):** Step-by-step GitHub and Git help for a beginner on Windows (cmd).
 - **Problems with the AI's answers:**
   - It first gave Git Bash commands (`touch`) that do not work in cmd; we asked again and it gave cmd versions (`type nul >`, `move /Y`).
