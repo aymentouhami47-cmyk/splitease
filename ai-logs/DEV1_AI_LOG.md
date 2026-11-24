@@ -1,6 +1,6 @@
 # AI Interaction Log: Developer 1
 
-**Developer:** [Aymen ]  
+**Developer:** [Aymen]  
 **Role:** Backend (split logic, balances, database, REST API)  
 **AI tool:** Claude (Anthropic), chat session with file and code tools  
 **Project:** SplitEase
